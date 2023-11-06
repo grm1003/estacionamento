@@ -1,0 +1,5 @@
+spring:
+  data:
+    mongo:
+      uri: mongodb+srv://adm:EstacionamentoPOO2@cluster0.c4tellw.mongodb.net/?retryWrites=true&w=majority
+      database: Estacionamento
