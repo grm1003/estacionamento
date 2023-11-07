@@ -124,16 +124,16 @@ public class EstacionamentoFachada implements EstacionamentoObserver {
 
     public Boolean verificaPlacaSalva(String placa){
         Carro encontrado = carroRepository.findByPlaca(placa);
-        if(encontrado == null) return true;
+        if(encontrado != null) return true;
         else return false;
     }
 
     public Boolean CartaonaoPago(String placa){
         List<Cartao> encontrados = cartaoRepository.findByPlaca(placa);
         for(Cartao encontrado: encontrados){
-            if(!encontrado.isPago()) return false;
+            if(!encontrado.isPago()) return true;
         }
-        return true;
+        return false;
     }
 
     public void atualizaCartao(Cartao cartao){
@@ -164,5 +164,22 @@ public class EstacionamentoFachada implements EstacionamentoObserver {
         definePagamento(cartao, tipoPagamento);
         //realiza o pagamento do cartao e seta cartao como pago
         cartao.realizaPagamento(valor);
+    }
+
+    //-------------------------funções básicas api-------------------------------------
+
+    public List<Carro> listAllCarros() {
+        return carroRepository.findAll();
+    }
+
+    public List<Cartao> listAllCartoes() {
+        return cartaoRepository.findAll();
+    }
+
+    public Cartao localizarCartaoAtivo(String placa){
+        List<Cartao> cartoes = cartaoRepository.findByPlaca(placa);
+        for (Cartao cartao : cartoes)
+            if(!cartao.isPago())return cartao;
+        return null;
     }
 }

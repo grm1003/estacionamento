@@ -34,36 +34,30 @@ public class ControllerEstacionamento {
     @GetMapping("/carro/entrar")
     String Entra() {
         ToyotaFabrica toyotaFabrica = new ToyotaFabrica();
-        Carro toy = toyotaFabrica.criaCarro("UHP0924", "Yaris");
+        Carro toy = toyotaFabrica.criaCarro("EIS0875", "Pokemon");
         DisplayObserver displayVagas = new DisplayObserver();
         estacionamentoFachada.adicionarObserver(displayVagas);
-        estacionamentoFachada.entraCarro(estacionamento.getPisos().get(0),6,toy);
-        return "Deu certo";
+        Cartao cartao = estacionamentoFachada.entraCarro(estacionamento.getPisos().get(0),8,toy);
+        if(cartao != null) return "Carro da placa "+toy.getPlaca()+" entrou na vaga do estacionamento!";
+        else return "Erro ao entrar com carro | Carro já no estacionamento";
     }
 
     @GetMapping("/carro/sair")
     String Sair() {
-       List<Cartao> cartoes = cartaoRepository.findByPlaca("UHP0924");
-
-        for (Cartao cartao : cartoes) {
-            System.out.println(cartao);
-            if(!cartao.isPago()) {
-                estacionamentoFachada.saiCarro(estacionamento.getPisos().get(0), 5, cartao, "Pix");
-                return "Carro da placa "+cartao.getPlaca()+" teve pagamento concluido no valor de "+cartao.getTotal()+" e saiu do estacionamento ";
-            }
-        }
-
-        return "Carro não está no estacionamento";
+       Cartao cartao = estacionamentoFachada.localizarCartaoAtivo("EIS0875");
+       if(cartao == null)return "Carro não está no estacionamento";
+       estacionamentoFachada.saiCarro(estacionamento.getPisos().get(0), 8, cartao, "Pix");
+       return "Carro da placa "+cartao.getPlaca()+" teve pagamento concluido no valor de "+cartao.getTotal()+" e saiu do estacionamento ";
     }
 
     @GetMapping("/cartoes")
     List<Cartao> Cartoes() {
-       return cartaoRepository.findAll();
+       return estacionamentoFachada.listAllCartoes();
     }
 
     @GetMapping("/carros")
     List<Carro> Carros() {
-        return carroRepository.findAll();
+        return estacionamentoFachada.listAllCarros();
     }
 
 }
