@@ -14,18 +14,10 @@ import java.util.List;
 
 @RestController
 public class ControllerTeste {
-    @Autowired
-    CarroRepository carroRepository;
-    @Autowired
-    CartaoRepository cartaoRepository;
     @GetMapping()
     String Work() {
         return "Funfando";
     }
 
-    @GetMapping("/test")
-    List<Carro> all() {
-        return carroRepository.findAll();
-    }
 
 }

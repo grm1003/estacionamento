@@ -1,12 +1,10 @@
 package br.com.api.estacionamento.Entidades.Fabrica;
 
 public class FabricaCarros {
+    private HondaFabrica honda = new HondaFabrica();
+    private ToyotaFabrica toyota = new ToyotaFabrica();
 
-
-    private HondaFabrica honda;
-    private ToyotaFabrica toyota;
-
-    private HyundaiFabrica hyundai;
+    private HyundaiFabrica hyundai = new HyundaiFabrica();
 
     public Carro controiCarro(String placa, String modelo, String marca) {
 

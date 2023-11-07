@@ -15,10 +15,12 @@ import br.com.api.estacionamento.Service.Fachada.EstacionamentoFachada;
 import br.com.api.estacionamento.Service.Observer.DisplayObserver;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.data.mongodb.repository.Update;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -61,8 +63,9 @@ public class ControllerEstacionamento {
         return estacionamento;
     }
 
-    @PostMapping("carro/entrar")
-    public String Entrar(@RequestBody CarroDTO carro) {
+    @GetMapping("carro/entrar")
+    @Transactional
+    public String Entrar(@RequestBody @Valid CarroDTO carro) {
         Carro carro_entrada = fabrica.controiCarro(carro.getPlaca(), carro.getModelo(), carro.getMarca());
         estacionamentoFachada.adicionarObserver(displayVagas);
         Cartao cartao = estacionamentoFachada.entraCarro(estacionamento.getPisos().get(carro.getPiso()), carro.getVaga(), carro_entrada);

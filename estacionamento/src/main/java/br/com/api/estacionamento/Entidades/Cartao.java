@@ -35,9 +35,14 @@ public class Cartao {
 
     //Strategy que define estratégia de pagamento do total
     private PagamentosStrategy pagamentoStrategy;
+    private String tipoPagamento;
 
     //verifica se cartão foi pago ou não
     private boolean pago;
+
+    public void setTipoPagamento(String tipoPagamento) {
+        this.tipoPagamento = tipoPagamento;
+    }
 
     public String getId() {
         return id;

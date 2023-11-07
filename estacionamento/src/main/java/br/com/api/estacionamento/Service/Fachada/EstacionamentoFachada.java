@@ -15,6 +15,7 @@ import br.com.api.estacionamento.Service.Pagamentos.Pix;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
@@ -45,6 +46,7 @@ public class EstacionamentoFachada implements EstacionamentoObserver {
     }
 
     //processo de entrada de um carro no estacionamento
+    @Transactional
     public Cartao entraCarro(PisoEstacionamento piso, int vaga, Carro carro){
         try {
             //verifica se estacionamento não está cheio
@@ -74,6 +76,7 @@ public class EstacionamentoFachada implements EstacionamentoObserver {
     }
 
     //processo de saida de um carro no estacionamento
+    @Transactional
     public void saiCarro(PisoEstacionamento piso, int vaga, Cartao cartao, String tipoPagamento){
         try {
             //verifica se tem vagas preenchidas
@@ -144,11 +147,10 @@ public class EstacionamentoFachada implements EstacionamentoObserver {
             if(!encontrado.isPago()) cartaoAtualizar = encontrado;
         }
         try {
-            cartao.setSaida(LocalDateTime.now());
-            cartaoAtualizar.setPago(true);
+            cartao.setPago(true);
+            cartao.setPagamentoStrategy(null);
             cartaoRepository.deleteById(cartaoAtualizar.getId());
-            cartaoRepository.save(cartaoAtualizar);
-
+            cartaoRepository.save(cartao);
         }catch (NullPointerException e){
             System.out.println("Registro não encontrado");
         }
@@ -156,9 +158,11 @@ public class EstacionamentoFachada implements EstacionamentoObserver {
     }
 
     public void definePagamento(Cartao cartao, String tipoPagamento){
+        cartao.setTipoPagamento(tipoPagamento);
         if(tipoPagamento.equals("Pix"))cartao.setPagamentoStrategy(new Pix());
         if(tipoPagamento.equals("Crédito"))cartao.setPagamentoStrategy(new CartaoCrédito());
         if(tipoPagamento.equals("Débito")) cartao.setPagamentoStrategy(new CartaoDédito());
+
     }
 
     public void RealizaPagamento(double valor,Cartao cartao, String tipoPagamento){
