@@ -43,6 +43,10 @@ public class Cartao {
         return id;
     }
 
+    public void setSaida(LocalDateTime saida) {
+        this.saida = saida;
+    }
+
     public double getPreco_min() {
         return preco_min;
     }

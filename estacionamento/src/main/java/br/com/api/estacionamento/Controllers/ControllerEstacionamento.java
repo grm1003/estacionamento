@@ -50,6 +50,12 @@ public class ControllerEstacionamento {
        return "Carro da placa "+cartao.getPlaca()+" teve pagamento concluido no valor de "+cartao.getTotal()+" e saiu do estacionamento ";
     }
 
+    @GetMapping("/estacionamento")
+    Estacionamento Estratura() {
+        return estacionamento;
+    }
+
+
     @GetMapping("/cartoes")
     List<Cartao> Cartoes() {
        return estacionamentoFachada.listAllCartoes();

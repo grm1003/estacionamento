@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -143,6 +144,7 @@ public class EstacionamentoFachada implements EstacionamentoObserver {
             if(!encontrado.isPago()) cartaoAtualizar = encontrado;
         }
         try {
+            cartao.setSaida(LocalDateTime.now());
             cartaoAtualizar.setPago(true);
             cartaoRepository.deleteById(cartaoAtualizar.getId());
             cartaoRepository.save(cartaoAtualizar);
