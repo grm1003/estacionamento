@@ -93,8 +93,6 @@ public class EstacionamentoFachada implements EstacionamentoObserver {
                 Logger logger = Logger.getInstance();
                 logger.println("Carro saiu do estacionamento");
                 notificarObserver(piso);
-
-
             }
         }catch (Exception e){
             System.out.println("Erro: "+ e);

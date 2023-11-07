@@ -28,18 +28,13 @@ import java.util.List;
 
 @RestController
 public class ControllerEstacionamento {
-    @Autowired
-    CarroRepository carroRepository;
-    @Autowired
-    CartaoRepository cartaoRepository;
-
-    @Autowired
-    private EstacionamentoFachada estacionamentoFachada;
 
     private Estacionamento estacionamento = new Estacionamento();
     DisplayObserver displayVagas = new DisplayObserver();
     FabricaCarros fabrica = new FabricaCarros();
 
+    @Autowired
+    private EstacionamentoFachada estacionamentoFachada;
 
     @GetMapping("teste/carro/entrar")
     String EntrarTeste() {
