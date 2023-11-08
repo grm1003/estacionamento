@@ -43,8 +43,8 @@ foi utilizado para não correr risco de haver o uso impróprio de herança.
 Foi mais difícil do que achávamos incorporar os padrões de projeto no nosso sistema, pois tivemos que criar novas funções para que eles tivessem alguma utilização no sistema pelo o que foi definido como nosso tema de sistema a ser feito. Os princípios de projeto foram mais fáceis de integrar que são implementados pelos Padrões de Projeto já. Tivemos um pouco de dificuldade com a conexão com o banco de dados pela estrutura robusta do Spring, foi demorado mas conseguimos fazer ela funcionar, além disso tivemos dificuldades em relação a algumas injeção de dependência do Spring, pois algumas notations só aceitam injeção de objetos com contrutor sem parametros o que fomos descobrir após vários testes, além de dificuldade com as request que davam erro na desereaização do json para objeto para poder ser utilizado no sistema.
 
 ## Autores
-Andressa Oliveira Bernardes - 12121BSI201
-Elton Calebe Martins Prates - 11911BSI215
-Gabriel Rezende Machado - 12121BSI217
-Guilherme Martins de Oliveira - 12121BSI202
+> Andressa Oliveira Bernardes - 12121BSI201
+> Elton Calebe Martins Prates - 11911BSI215
+> Gabriel Rezende Machado - 12121BSI217
+> Guilherme Martins de Oliveira - 12121BSI202
 
