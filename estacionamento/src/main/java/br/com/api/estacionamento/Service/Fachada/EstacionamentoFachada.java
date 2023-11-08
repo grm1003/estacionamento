@@ -64,7 +64,7 @@ public class EstacionamentoFachada implements EstacionamentoObserver {
                     Cartao novo = criaCartaoRegistro(carro.getPlaca());
                     cartaoRepository.save(novo);
                     return novo;
-                }
+                }else piso.LiberaVaga(vaga);
 
                 //teriamos que salvar esse cartão em algum banco de dados para salvar as informações
             }else System.out.println("Estacionameto ocupado");
