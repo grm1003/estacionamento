@@ -77,7 +77,7 @@ public class EstacionamentoFachada implements EstacionamentoObserver {
 
     //processo de saida de um carro no estacionamento
     @Transactional
-    public void saiCarro(PisoEstacionamento piso, int vaga, Cartao cartao, String tipoPagamento){
+    public Boolean saiCarro(PisoEstacionamento piso, int vaga, Cartao cartao, String tipoPagamento){
         try {
             //verifica se tem vagas preenchidas
             if(piso.ContaVagasDisponiveis() < piso.tamanhoEstacionamento()) {
@@ -93,10 +93,12 @@ public class EstacionamentoFachada implements EstacionamentoObserver {
                 Logger logger = Logger.getInstance();
                 logger.println("Carro saiu do estacionamento");
                 notificarObserver(piso);
+                return true;
             }
         }catch (Exception e){
             System.out.println("Erro: "+ e);
         }
+           return false;
     }
 
     @Override
@@ -156,11 +158,12 @@ public class EstacionamentoFachada implements EstacionamentoObserver {
     }
 
     public void definePagamento(Cartao cartao, String tipoPagamento){
-        cartao.setTipoPagamento(tipoPagamento);
-        if(tipoPagamento.equals("Pix"))cartao.setPagamentoStrategy(new Pix());
-        if(tipoPagamento.equals("Crédito"))cartao.setPagamentoStrategy(new CartaoCrédito());
-        if(tipoPagamento.equals("Débito")) cartao.setPagamentoStrategy(new CartaoDédito());
-
+        if(tipoPagamento.equals("Pix")||tipoPagamento.equals("Crédito")||tipoPagamento.equals("Débito")) {
+            cartao.setTipoPagamento(tipoPagamento);
+            if (tipoPagamento.equals("Pix")) cartao.setPagamentoStrategy(new Pix());
+            if (tipoPagamento.equals("Crédito")) cartao.setPagamentoStrategy(new CartaoCrédito());
+            if (tipoPagamento.equals("Débito")) cartao.setPagamentoStrategy(new CartaoDédito());
+        }else  throw new IllegalArgumentException("Pagamento inválido") ;
     }
 
     public void RealizaPagamento(double valor,Cartao cartao, String tipoPagamento){

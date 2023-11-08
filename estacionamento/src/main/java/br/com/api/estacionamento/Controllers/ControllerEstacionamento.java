@@ -41,8 +41,9 @@ public class ControllerEstacionamento {
     String SairTeste() {
        Cartao cartao = estacionamentoFachada.localizarCartaoAtivo("EIS0875");
        if(cartao == null)return "Carro não está no estacionamento";
-       estacionamentoFachada.saiCarro(estacionamento.getPisos().get(0), 8, cartao, "Pix");
-       return "Carro da placa "+cartao.getPlaca()+" teve pagamento concluido no valor de "+cartao.getTotal()+" e saiu do estacionamento ";
+       Boolean certo = estacionamentoFachada.saiCarro(estacionamento.getPisos().get(0), 8, cartao, "Pix");
+       if(certo)return "Carro da placa " + cartao.getPlaca() + " teve pagamento concluído no valor de " + cartao.getTotal() + " e saiu do estacionamento";
+       return "Erro ao realizar pagamento";
     }
 
     @GetMapping("/estacionamento")
@@ -64,13 +65,14 @@ public class ControllerEstacionamento {
     }
 
     @PostMapping("carro/sair")
-    public String Sair(@PathParam("placa")String placa, @PathParam("vaga")Integer vaga, @PathParam("piso")Integer piso ) {
+    public String Sair(@PathParam("placa")String placa,@PathParam("pagamento") String pagamento, @PathParam("vaga")Integer vaga, @PathParam("piso")Integer piso ) {
         Cartao cartao = estacionamentoFachada.localizarCartaoAtivo(placa);
         if (cartao == null) {
             return "Carro não está no estacionamento";
         }
-        estacionamentoFachada.saiCarro(estacionamento.getPisos().get(piso),vaga, cartao, "Pix");
-        return "Carro da placa " + cartao.getPlaca() + " teve pagamento concluído no valor de " + cartao.getTotal() + " e saiu do estacionamento";
+        Boolean certo = estacionamentoFachada.saiCarro(estacionamento.getPisos().get(piso),vaga, cartao, pagamento);
+        if(certo)return "Carro da placa " + cartao.getPlaca() + " teve pagamento concluído no valor de " + cartao.getTotal() + " e saiu do estacionamento";
+        return "Erro ao realizar pagamento";
     }
 
     @GetMapping("/cartoes")
